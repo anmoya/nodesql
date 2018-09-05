@@ -1,0 +1,19 @@
+{
+  "name": "nodesql",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "ejs": "^2.6.1",
+    "express": "^4.16.3",
+    "mssql": "^4.1.0"
+  },
+  "devDependencies": {
+    "google-charts": "^1.5.0"
+  }
+}

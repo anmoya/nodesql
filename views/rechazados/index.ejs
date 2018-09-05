@@ -1,0 +1,49 @@
+<h1>Documentos rechazados</h1>
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+<div class='container'>
+<table class='table'>
+    <thead>
+        <tr>
+            <th>#</th>
+            <th>Empresa</th>
+            <th>Tipo</th>
+            <th>Folio</th>
+            <th>Motivo Rechazo</th>
+        </tr>
+    </thead>
+    <tbody>
+    <% var counter = 1 %>
+    <% documentos.recordset.forEach( (item) => { %>
+        
+        <tr>
+            <td><%= counter %></td>
+            <td><%= item.nomb_emis %></td>
+            <td><%= item.tipo_docu %></td>
+            <td><%= item.foli_docu %></td>
+            <td><%= item.mens_esta %></td>
+        </tr>
+        <% counter++ %>
+        
+    <% }) %>
+    </tbody>
+</table>
+
+<div id='piechart'></div>
+</div>
+<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+    <script type="text/javascript">
+      google.charts.load('current', {'packages':['corechart']});
+      google.charts.setOnLoadCallback(drawChart);
+
+      function drawChart() {
+          var algo = <%= documentos.recordset %>;
+        var data = {{ algo  }};
+
+        var options = {
+        title: 'My Daily Activities'
+      };
+
+    var chart = new google.visualization.PieChart(document.getElementById('piechart'));
+
+    chart.draw(data, options);
+  }
