@@ -8,7 +8,7 @@ var ejs = require('ejs');
 
 const mongoose  = require('mongoose');
 
-mongoose.connect('mongodb://sphoidldoh:riojaneiro2018@ds245512.mlab.com:45512/shiloh');
+mongoose.connect('mongodb://sphoidldoh:@ds245512.mlab.com:45512/shiloh');
 var authorSchema = new mongoose.Schema({
     authorName: String,
     authorLastName : String,
