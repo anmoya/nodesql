@@ -2,24 +2,18 @@ const sql = require('mssql');
 const fs = require('fs');
 const base64 = require('base64topdf');
 
-var obtenerBase64 = async (codi_emex, codi_empr, tipo_docu, foli_docu, foli_docu2) => {
+var obtenerBase64 = async (codi_emex, codi_empr, tipo_docu, foli_docu) => {
     
     try {
         sql.close();
         const pool = await sql.connect('mssql://prod:facture@10.1.1.107/prod');
-        let query = `select clob_docu from dte_docu_lob_hold with(nolock) where codi_emex = '${codi_emex}' and codi_empr = ${codi_empr} and tipo_docu = ${tipo_docu} and foli_docu between ${foli_docu} and ${foli_docu2} and tipo_Arch='XML';`;
+        let query = `select clob_docu from dte_docu_lob_hold with(nolock) where codi_emex = '${codi_emex}' and codi_empr = ${codi_empr} and tipo_docu = ${tipo_docu} and foli_docu = ${foli_docu} and tipo_Arch='XML';`;
         console.log(`Haré esta query: ${query}`);
         let result = await pool.request().query(query);
-        //console.log(result);
         try {
-            let contador = foli_docu;
-            
-            result.recordset.forEach( (item) => {
-                let base64clob = item.clob_docu;
-                let decodedBase64 = base64.base64Decode(base64clob, contador+'clob.xml');
-                contador++;
-                console.log('realizado folio: ' + contador);
-            });
+            let base64clob = result.recordset[0].clob_docu;
+            let decodedBase64 = base64.base64Decode(base64clob, foli_docu+'clob.xml');
+            console.log('realizado folio: ' + foli_docu);
         } catch (error) {
             console.log('No pude, sigo con el otro folio');
         }
@@ -30,10 +24,9 @@ var obtenerBase64 = async (codi_emex, codi_empr, tipo_docu, foli_docu, foli_docu
     }
 };
 
-
-obtenerBase64('PROD_0121', '1', '33', 101, 110);
-
-
+for (var i = 100; i < 110; i++){
+    obtenerBase64('PROD_0121', '1', '33', i);
+}
 
 
 
